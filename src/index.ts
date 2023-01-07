@@ -5,7 +5,6 @@ import express, { Application } from "express";
 import { config } from "./config";
 import { AppDataSource } from "./utils/data-source";
 import Routes from "./routes";
-import jwtMiddleware from "./middleware/jwt.middleware";
 import cors from "cors";
 import { container } from 'tsyringe';
 import { LoggerHelper } from "./helper/logger";
