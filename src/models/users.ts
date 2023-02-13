@@ -52,6 +52,15 @@ export class User extends BaseEntity {
   })
   status!: UserStatus;
 
+  @Column({type:'varchar', name:'title'})
+  title!: string
+
+  @Column({type: 'varchar', name:'image'})
+  image!: string
+
+  @Column({type:'boolean', name:'terms_and_conditions'})
+  termsAndConditions!: boolean
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12)

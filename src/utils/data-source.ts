@@ -6,6 +6,7 @@ import {
 } from '../models';
 import {
   User1668791714716,
+  UpdateUser1668791714717
 } from '../database/migrations';
 
 
@@ -24,6 +25,7 @@ export const AppDataSource = new DataSource({
   ],
   migrations: [
     User1668791714716,
+    UpdateUser1668791714717
   ],
   // subscribers: ['src/subscribers/**/*{.ts,.js}'],
 });
