@@ -5,7 +5,4 @@ import { UserController } from '../../controller/user.controller';
 import authMiddleware from '../../middleware/auth.middleware';
 
 
-const userController: any = container.resolve(UserController);
-router.post('/register', userController.registerUser);
-
 export default router;
