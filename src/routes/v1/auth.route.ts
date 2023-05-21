@@ -5,5 +5,6 @@ import { AuthController } from '../../controller/auth.controller';
 
 
 const authController: any = container.resolve(AuthController);
+router.post('/login', authController.loginUser);
 
 export default router;

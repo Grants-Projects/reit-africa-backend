@@ -1,11 +1,13 @@
 /** @format */
 
+import { env } from "process";
+
 require("dotenv").config();
 
 export const config = {
   appname: "reit-africa",
   web: {
-    port: process.env.PORT || "8085",
+    port: process.env.PORT || "8087",
     header_name: process.env.HEADER_NAME || 'x-auth-token',
     jwt_secret: process.env.JWT_SECRET || "myKXAXZXI902@@#@50381.C03",
     jwt_reset_secret: process.env.JWT_RESET_SECRET || "myKXA938u902.XI902@@#@50381.C03",
@@ -26,4 +28,16 @@ export const config = {
     db: parseInt(process.env.REDIS_DB) || 0,
     ttl:    parseInt(process.env.REDIS_DB) * 60 || 60 * 60,
   },
+  MONGODB_URL:
+    process.env.MONGODB_URL || "",
+    web3: {
+      signer_private_key: process.env.SIGNER_PRIVATE_KEY,
+      contract_address: process.env.CONTRACT_ADDRESS,
+      alchemi_api_key: process.env.ALCHEMY_API_KEY,
+      infura_project_id: process.env.INFURA_PROJECT_ID,
+      infura_secret: process.env.INFURA_SECRET
+    }
 };
+
+
+

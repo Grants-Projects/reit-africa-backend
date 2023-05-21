@@ -15,30 +15,30 @@ import { IRequest, IResponse } from '../common/http.interface';
 // };
 
 import { TokenService } from '../services/token.service';
+import { ForbiddenAccess } from '../utils/errors/ErrorHandlers';
+import { BadRequest, HandleErrorResponse } from '../exceptions/ErrorHandlers';
 
 export default (scope: string = null) => {
-  try {
+
     return async (req: IRequest, res: IResponse, next) => {
       try {
         let auth = req.headers['x-auth-token']
           ? req.headers['x-auth-token']
           : req.headers['Authorization'];
         if (!auth) {
-          return res.forbidden(null, 'Auth is required');
+          throw new ForbiddenAccess("Auth is required")
         }
         let decoded = await TokenService.verifyServiceToken(auth as string);
-       console.log("decoded", decoded)
         req.body['user'] = decoded;
         // console.log(decoded);
         if (scope && !decoded.scopes.includes(scope.toLocaleUpperCase())) {
-          return res.forbidden(null, 'User does not have the required access scope');
+          throw new ForbiddenAccess("User does not have the required scope")
         }
         next();
       } catch (err) {
-        return res.forbidden(null, 'Bad JWT');
+        console.log(err)
+        return HandleErrorResponse(err, res)
       }
     };
-  } catch (err) {
-    console.log('wow');
-  }
+  
 };
