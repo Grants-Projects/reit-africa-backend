@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
-import { IError } from '../../interfaces';
 import { ErrorCode } from './ErrorCodes';
 
 interface ErrorParam {
   data?: unknown;
   message?: string;
 }
-
+interface IError {
+  code: string;
+  message: string;
+  data?: unknown;
+}
 /**
  * Handles unknown route errors
  */
@@ -24,79 +27,56 @@ export async function unknownRouteError(
   });
 }
 
-abstract class BaseError implements IError {
+abstract class BaseError extends Error implements IError {
   code: string;
   message: string;
   data?: unknown;
+  metaData: any;
+  subCode?: string;
 
-  protected constructor(code: string, message: string, error?: unknown) {
-    this.code = code;
+  protected constructor(message: string, config) {
+    super(message);
+    this.metaData = config.metaData || {};
     this.message = message;
-    this.data = error;
+    this.subCode = config.subCode;
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
   }
 }
 
 export class UnauthorizedAccess extends BaseError {
-  constructor(error: ErrorParam) {
-    super(
-      ErrorCode.UNAUTHORIZED_ACCESS,
-      error.message || 'Unauthorized access',
-      error.data
-    );
+  constructor(message: string = ErrorCode.BAD_REQUEST, config = {}) {
+    super(message, config);
   }
 }
 
 export class ForbiddenAccess extends BaseError {
-  constructor(error: ErrorParam) {
-    super(ErrorCode.FORBIDDEN, error.message || 'Not permitted', error.data);
+  constructor(message: string = ErrorCode.BAD_REQUEST, config = {}) {
+    super(message, config);
   }
 }
 
 export class ServerError extends BaseError {
-  constructor(error: ErrorParam) {
-    super(
-      ErrorCode.SERVER_ERROR,
-      error.message || 'An unexpected internal server error occurred',
-      error.data
-    );
+  constructor(message: string = ErrorCode.BAD_REQUEST, config = {}) {
+    super(message, config);
   }
 }
 
 export class BadRequest extends BaseError {
-  constructor(error: ErrorParam) {
-    super(
-      ErrorCode.BAD_REQUEST,
-      error.message || 'Some important parameters are missing. See documentation',
-      error.data
-    );
+  constructor(message: string = ErrorCode.BAD_REQUEST, config = {}) {
+    super(message, config);
   }
 }
 
 export class ResourceNotFoundError extends BaseError {
-  constructor(error: ErrorParam) {
-    super(
-      ErrorCode.RESOURCE_NOT_FOUND,
-      error.message || 'Resource not found',
-      error.data
-    );
+  constructor(message: string = ErrorCode.RESOURCE_NOT_FOUND, config = {}) {
+    super(message, config);
   }
 }
 
-export const HandleErrorResponse = (errObj: unknown, res: Response): Response => {
-  const err = <IError>errObj;
-  console.log(err.message || 'Unexpected error occured');
-  switch (err.code) {
-    case ErrorCode.FORBIDDEN:
-      return res.status(403).json(new ForbiddenAccess(err));
-    case ErrorCode.BAD_REQUEST:
-      return res.status(400).json(new BadRequest(err));
-    case ErrorCode.RESOURCE_NOT_FOUND:
-      return res.status(404).json(new ResourceNotFoundError(err));
-    case ErrorCode.UNAUTHORIZED_ACCESS:
-      return res.status(401).json(new UnauthorizedAccess(err));
-    default: {
-      // TODO: Internal server errors should be reported to sentry
-      return res.status(500).json(new ServerError(err));
-    }
-  }
+export const HandleErrorResponse = (err: any, res: Response) => {
+  return res.status(500).json({
+    code: err.code || err.name,
+    message: err.message,
+  });
 };

@@ -119,7 +119,7 @@ export const TokenService = {
       return Promise.resolve(<IDecodedServiceToken>decoded);
     } catch (err) {
       console.log(err);
-      return Promise.reject(new UnauthorizedAccess(<IError>err));
+      return Promise.reject(new UnauthorizedAccess("unauthorised"));
     }
   },
 };

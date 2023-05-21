@@ -69,6 +69,7 @@ export class MongooseUuid extends Schema.Types.Buffer implements WithGetters {
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   cast(val: any, doc: Document, init: boolean, prev?: any, options?: any): any {
+    console.log("cast", val)
     if (typeof val === "string" && UuidRegEx.test(val)) {
       return new UUID(val);
     }
@@ -90,14 +91,13 @@ export class MongooseUuid extends Schema.Types.Buffer implements WithGetters {
 
   castForQuery($conditional: any, val: any) {
     let handler;
-
     if (arguments.length === 2) {
       handler = this.$conditionalHandlers[$conditional];
 
       if (!handler) {
         throw new Error("Can't use " + $conditional + " with UUID.");
       }
-
+      console.log("here")
       return handler.call(this, val);
     }
 
