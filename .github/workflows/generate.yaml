@@ -15,7 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-       
+      
+      - name: Set Registry Config
+        run: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> $HOME/.npmrc
       
       - name: Set up Java
         uses: actions/setup-java@v2
