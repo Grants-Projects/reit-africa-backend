@@ -196,10 +196,10 @@ components:
           description: 'The email of  user'
 
     ErrorMessageDto:
-      $ref: 'https://api-spec-common.s3.amazonaws.com/common.yaml#/components/schemas/ErrorMessageDto'
+      $ref: 'http://api-spec-common-dto.s3-website.eu-west-2.amazonaws.com'
 
     StatusDto:
-      $ref: 'https://api-spec-common.s3.amazonaws.com/common.yaml#/components/schemas/StatusDto'
+      $ref: 'http://api-spec-common-dto.s3-website.eu-west-2.amazonaws.com'
 
     # ENUM DEFINITIONS
   responses:
