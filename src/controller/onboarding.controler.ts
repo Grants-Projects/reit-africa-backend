@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service'
 import { TokenService } from '../services/token.service'
 import { error } from 'console'
 import { BadRequest, HandleErrorResponse } from '../utils/errors/ErrorHandlers'
+import { Conflict } from '../exceptions/ErrorHandlers'
 
 @injectable()
 export class OnboardingController {
@@ -21,23 +22,35 @@ export class OnboardingController {
     
       let userExists = await this.userService.findUserByEmail(req.body.email)
         if(userExists){
-            throw new BadRequest("User already exists")
+            throw new Conflict("User already exists")
         }
+        
         const jwtDecoded = await this.authService.verifyWeb3AuthJwtUsingJose(
             req.body.appPubKey,
             req.body.idToken,
           )
+
+        if(jwtDecoded.email != req.body.email){
+          throw new BadRequest("Are you trying to manipulate the email on the frontend???")
+        }
         const newUser = await this.userService.onboardUser({
           email: jwtDecoded.email,
           address: req.body.address,
           firstName: req.body.firstName,
           lastName: req.body.lastName,
-          walletBalance: req.body.walletBalance,
+          walletBalance: 0, //ignore this wallet balance
         })
-        await this.userService.onboardUser(newUser)
-        return res.status(201).json(newUser)
+         const response:any = {
+           ...newUser.toJSON(),
+           id: newUser._id
+         }
+
+         delete response._id;
+         delete response.__v;
+        return res.status(201).json(response)
 
     } catch (err) {
+      console.log(err)
         return HandleErrorResponse(err, res)
     }
   }

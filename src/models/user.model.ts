@@ -6,11 +6,6 @@ import crypto from "crypto";
 // Create the user schema
 const UserSchema = new Schema(
   {
-    _id: {
-      type: MongooseUuid,
-      default: () => crypto.randomUUID(),
-      requited: true
-    },
     email: {
       type: String,
       required: true,
