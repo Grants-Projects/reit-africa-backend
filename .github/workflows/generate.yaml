@@ -14,12 +14,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+      - uses: actions/checkout@v2
+       
       
       - name: Set up Java
         uses: actions/setup-java@v2
