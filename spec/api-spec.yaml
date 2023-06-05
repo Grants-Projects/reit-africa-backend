@@ -213,7 +213,7 @@ components:
             success: true
             message: 'Action completed successfully'
             data:
-              label: name of service
+              label: name  of service
               expiry: date
 
     InvalidRequest:
