@@ -71,6 +71,12 @@ export class ResourceNotFoundError extends BaseError {
   }
 }
 
+export class Conflict extends BaseError {
+  constructor(message: string = ErrorCode.CONFLICT, config = {}) {
+    super(message, config);
+  }
+}
+
 export const HandleErrorResponse = (err: any, res: Response) => {
   return res.status(500).json({
     code: err.code || err.name,

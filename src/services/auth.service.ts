@@ -12,6 +12,7 @@ export class AuthService {
     appPubKey: string,
     idToken: string,
   ): Promise<any> => {
+    try{
     const jwks = jose.createRemoteJWKSet(
       new URL('https://api.openlogin.com/jwks'),
     )
@@ -23,5 +24,8 @@ export class AuthService {
       return jwtDecoded.payload
     }
     throw new UnauthorizedAccess("Kindly be sure you are using the correct token and app_pub_key from web3 auth")
+  }catch(err){
+    console.log(err)
+  }
   }
 }

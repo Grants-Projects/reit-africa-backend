@@ -24,7 +24,7 @@ security:
   - bearerToken: []
 
 paths:
-  /api/v1/onboarding/register:
+  /api/v1/onboarding/:
     post:
       summary: 'Endpoint to signup users'
       operationId: registerUser
@@ -80,34 +80,6 @@ paths:
         'default':
           $ref: '#/components/responses/ServerError'
 
-  /trainer/course:
-    post:
-      summary: 'Endpoint to create course'
-      operationId: createTrainerCourse
-      x-visibility: public
-      tags:
-        - 'course'
-
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CourseRequest'
-
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDto'
-        '400':
-          $ref: '#/components/responses/InvalidRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        'default':
-          $ref: '#/components/responses/ServerError'
-
 components:
   schemas:
     # REQUEST OBJECT DEFINITIONS
@@ -117,8 +89,9 @@ components:
         - firstName
         - lastName
         - email
-        - userType
-        - password
+        - address
+        - appPubKey
+        - idToken
       properties:
         firstName:
           type: string
@@ -131,47 +104,32 @@ components:
         email:
           type: string
           description: User's email
-        password:
+        address:
           type: string
-          format: string
-          minLength: 8
-          maxLength: 30
-          pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%^*?&-])[A-Za-z\d@$#!%^*?&-]'
-          description: The user password
-        userType:
-          $ref: '#/components/schemas/UserType'
+          description: User's address
+        appPubKey:
+          type: string
+          description: web3 auth pubkey
+        idToken:
+          type: string
+          description: id token generated from web3 token
 
     UserLogin:
       type: object
       required:
         - email
-        - password
+        - appPubKey
+        - idToken
       properties:
         email:
           type: string
           description: The email of the User attempting login
-        password:
+        appPubKey:
           type: string
-          description: The password set by the user during onboarding
-
-    CourseRequest:
-      type: object
-      required:
-        - name
-        - metadata
-      properties:
-        name:
+          description: app pubkey
+        idToken:
           type: string
-          description: name of the course
-        metadata:
-          type: string
-          description: course metadata
-
-    UserType:
-      type: string
-      enum:
-        - 'BUSINESS'
-        - 'BUYER'
+          description: id token
 
     SuccessMessage:
       type: object
@@ -191,30 +149,27 @@ components:
       type: object
       allOf:
         - $ref: '#/components/schemas/User'
+        - properties:
+            address:
+              type: string
+              description: user's address
+            walletBalance:
+              type: string
+              description: user's wallet
+            createdAt:
+              type: string
+              description: created date
+            updatedAt:
+              type: string
+              description: updated at
 
     LoginResponse:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/User'
-        - properties:
-            token:
-              type: string
-              format: jwt
-              description: authorizes a valid user
-
-    CourseResponse:
-      type: object
       properties:
-        id:
-          type: 'string'
-          format: 'uuid'
-          description: 'The id of the course'
-        name:
-          type: 'string'
-          description: 'The name of the course'
-        metadata:
-          type: 'string'
-          description: 'The metadata of the course'
+        accessToken:
+          type: string
+          format: jwt
+          description: authorizes a valid user
 
     User:
       type: 'object'
@@ -239,9 +194,6 @@ components:
           type: 'string'
           format: 'email'
           description: 'The email of user'
-        userType:
-          type: 'string'
-          description: 'Type of a user'
 
     ErrorMessageDto:
       $ref: 'https://api-spec-common.s3.amazonaws.com/common.yaml#/components/schemas/ErrorMessageDto'
