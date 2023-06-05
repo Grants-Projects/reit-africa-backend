@@ -28,3 +28,6 @@ jobs:
 
       - name: Run Make Script
         run: sh generate.sh
+
+      - name: Publish
+        run: sh generated-clients/publish.sh 
