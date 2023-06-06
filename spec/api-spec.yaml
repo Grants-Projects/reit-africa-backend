@@ -129,7 +129,7 @@ components:
           description: app pubkey
         idToken:
           type: string
-          description: id token
+          description: id  token
 
     SuccessMessage:
       type: object
