@@ -5,7 +5,7 @@ on:
       - 'spec/**'
 
 env:
-  GITHHUB_TOKEN: ${{secrets.COMMIT_TOKEN}}
+  GITHUB_TOKEN: ${{secrets.COMMIT_TOKEN}}
 
 jobs:
   generateClientSource:
@@ -37,4 +37,4 @@ jobs:
         run: sh generate.sh
 
       - name: Publish
-        run: sh generated-clients/publish.sh 
+        run: sh generated-clients/publish.sh
