@@ -96,7 +96,7 @@ components:
         firstName:
           type: string
           format: string
-          description: The fullname of User to be added
+          description: The  fullname of User to be added
         lastName:
           type: string
           format: string
