@@ -129,7 +129,7 @@ components:
           description: app pubkey
         idToken:
           type: string
-          description: id token
+          description: id  token
 
     SuccessMessage:
       type: object
@@ -193,13 +193,13 @@ components:
         email:
           type: 'string'
           format: 'email'
-          description: 'The email of user'
+          description: 'The email of  user'
 
     ErrorMessageDto:
-      $ref: 'https://api-spec-common.s3.amazonaws.com/common.yaml#/components/schemas/ErrorMessageDto'
+      $ref: 'http://api-spec-common-dto.s3-website.eu-west-2.amazonaws.com'
 
     StatusDto:
-      $ref: 'https://api-spec-common.s3.amazonaws.com/common.yaml#/components/schemas/StatusDto'
+      $ref: 'http://api-spec-common-dto.s3-website.eu-west-2.amazonaws.com'
 
     # ENUM DEFINITIONS
   responses:
@@ -213,7 +213,7 @@ components:
             success: true
             message: 'Action completed successfully'
             data:
-              label: name of service
+              label: name  of service
               expiry: date
 
     InvalidRequest:
@@ -286,4 +286,4 @@ components:
       type: 'apiKey'
       name: 'x-auth-token'
       in: 'header'
-      description: 'Auth Token header for inter-service communication'
+      description: 'Auth Token header for inter-service  communication'

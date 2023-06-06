@@ -5,25 +5,36 @@ on:
       - 'spec/**'
 
 env:
-  GITHHUB_TOKEN: ${{secrets.COMMIT_TOKEN}}
+  GITHUB_TOKEN: ${{secrets.COMMIT_TOKEN}}
 
 jobs:
   generateClientSource:
     name: Generate Client Source
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    #if: github.ref == 'refs/heads/master'
 
     steps:
       - uses: actions/checkout@v2
-       
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Set Registry Config
+        run: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
       
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
           java-version: '11'
+          distribution: 'adopt'
       - name: Download OpenAPI Generator CLI
         run: |
           wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.1/openapi-generator-cli-5.3.1.jar -O openapi-generator-cli.jar
 
       - name: Run Make Script
         run: sh generate.sh
+
+      - name: Publish
+        run: sh generated-clients/publish.sh

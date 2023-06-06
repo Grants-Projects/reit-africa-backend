@@ -106,3 +106,4 @@ yarn.lock
 package-lock.json
 redoc-static.html
 .env.prod
+openapi-generator-cli.jar
