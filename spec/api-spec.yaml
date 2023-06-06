@@ -286,4 +286,4 @@ components:
       type: 'apiKey'
       name: 'x-auth-token'
       in: 'header'
-      description: 'Auth Token header for inter-service  communication'
+      description: 'Auth Token header for inter-service communication'
