@@ -14,7 +14,7 @@ java -jar openapi-generator-cli.jar generate \
             -p npmName='@Grants-Projects/reit-africa-api-client' \
             -p npmVersion='1.0.2' \
             -p npmRepository='https://github.com/Grants-Projects/artifacts' \
-            -p npmSourceRepository='https://github.com/Grants-Projects/reit-africa-sc.git' \
+            -p npmSourceRepository='https://github.com/Grants-Projects/reit-africa-backend.git' \
             -p npmAuthor='Marvelous' \
             -p npmDescription='Grants Project Tech' \
             -p supportsES6='true' \
