@@ -80,7 +80,7 @@ paths:
         'default':
           $ref: '#/components/responses/ServerError'
 
-  /api/v1/auth/verify-user:
+  /api/v1/auth/verify-user-exists:
     post:
       summary: 'Endpoint to check if a user has registered'
       operationId: verifyUser
@@ -212,8 +212,10 @@ components:
       type: object
       properties:
         message:
-          type: string
-          description: USER_AVAILABLE or USER_NOT_AVAILABLE
+          message:
+            $ref: '#/components/responses/VerifyUserMessage'
+            default: "USER_AVAILABLE"
+            description: USER_AVAILABLE or USER_NOT_AVAILABLE
 
     User:
       type: 'object'
@@ -259,6 +261,11 @@ components:
             data:
               label: name  of service
               expiry: date
+    VerifyUserMessage:
+      type: string
+      enum:
+        - "USER_AVAILABLE"
+        - "USER_NOT_AVAILABLE"
 
     InvalidRequest:
       description: Request could not be validated
