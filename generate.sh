@@ -12,7 +12,7 @@ java -jar openapi-generator-cli.jar generate \
             -p sortParamsByRequiredFlag='true' \
             -p npmSnapshot='168598969' \
             -p npmName='@Grants-Projects/reit-africa-api-client' \
-            -p npmVersion='1.0.3' \
+            -p npmVersion='1.0.4' \
             -p npmRepository='https://github.com/Grants-Projects/artifacts' \
             -p npmSourceRepository='https://github.com/Grants-Projects/reit-africa-backend.git' \
             -p npmAuthor='Marvelous' \

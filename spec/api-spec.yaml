@@ -211,11 +211,15 @@ components:
     VerifyUserResponse:
       type: object
       properties:
-        message:
           message:
-            $ref: '#/components/responses/VerifyUserMessage'
+            $ref: '#/components/schemas/VerifyUserMessage'
             default: "USER_AVAILABLE"
             description: USER_AVAILABLE or USER_NOT_AVAILABLE
+    VerifyUserMessage:
+      type: string
+      enum:
+        - "USER_AVAILABLE"
+        - "USER_NOT_AVAILABLE"
 
     User:
       type: 'object'
@@ -261,11 +265,6 @@ components:
             data:
               label: name  of service
               expiry: date
-    VerifyUserMessage:
-      type: string
-      enum:
-        - "USER_AVAILABLE"
-        - "USER_NOT_AVAILABLE"
 
     InvalidRequest:
       description: Request could not be validated
