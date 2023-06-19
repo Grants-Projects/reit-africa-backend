@@ -80,6 +80,34 @@ paths:
         'default':
           $ref: '#/components/responses/ServerError'
 
+  /api/v1/auth/verify-user-exists:
+    post:
+      summary: 'Endpoint to check if a user has registered'
+      operationId: verifyUser
+      x-visibility: public
+      tags:
+        - 'user'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyUser'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyUserResponse'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        'default':
+          $ref: '#/components/responses/ServerError'
+
 components:
   schemas:
     # REQUEST OBJECT DEFINITIONS
@@ -96,7 +124,7 @@ components:
         firstName:
           type: string
           format: string
-          description: The fullname of User to be added
+          description: The  fullname of User to be added
         lastName:
           type: string
           format: string
@@ -130,6 +158,15 @@ components:
         idToken:
           type: string
           description: id  token
+
+    VerifyUser:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: The email of the User attempting to verify if it exists
 
     SuccessMessage:
       type: object
@@ -170,6 +207,19 @@ components:
           type: string
           format: jwt
           description: authorizes a valid user
+
+    VerifyUserResponse:
+      type: object
+      properties:
+          message:
+            $ref: '#/components/schemas/VerifyUserMessage'
+            default: "USER_AVAILABLE"
+            description: USER_AVAILABLE or USER_NOT_AVAILABLE
+    VerifyUserMessage:
+      type: string
+      enum:
+        - "USER_AVAILABLE"
+        - "USER_NOT_AVAILABLE"
 
     User:
       type: 'object'
@@ -286,4 +336,4 @@ components:
       type: 'apiKey'
       name: 'x-auth-token'
       in: 'header'
-      description: 'Auth Token header for inter-service  communication'
+      description: 'Auth Token header  for inter-service  communication'
