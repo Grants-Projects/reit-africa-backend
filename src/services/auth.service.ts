@@ -3,6 +3,8 @@ import { injectable } from 'tsyringe'
 import { TokenService } from './token.service'
 import { BadRequest, ResourceNotFoundError, UnauthorizedAccess } from '../exceptions/ErrorHandlers'
 import * as jose from 'jose'
+import userModel from '../models/user.model'
+import { ServerError } from '../utils/errors/ErrorHandlers'
 
 @injectable()
 export class AuthService {
@@ -27,5 +29,15 @@ export class AuthService {
   }catch(err){
     console.log(err)
   }
+  }
+
+  public verifyUser = async (email: string): Promise<boolean> => {
+    try {
+      let response = await userModel.findOne({ email })
+      if (response) return true
+      return false
+    } catch (err) {
+      throw new ServerError(err)
+    }
   }
 }
