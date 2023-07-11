@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import IDatabaseConnector from "./interfaces/db-connectors.interface";
 import { MongoDbConnector } from "./helper";
 import mongoose from "mongoose";
+import ReitAfrica, {Configuration, AuthApiFp} from "@grants-projects/reit-africa-api-client/dist"
 
 const logger: any = container.resolve(LoggerHelper);
 
@@ -59,6 +60,7 @@ class Server {
   }
 }
 const server = new Server();
+const configx: any = new Configuration();
 server.start();
 process.on("SIGINT", function () {
   logger.log("\nGracefully shutting down from SIGINT (Ctrl-C)");
