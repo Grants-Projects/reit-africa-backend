@@ -25,9 +25,10 @@ export class AuthService {
     if ((jwtDecoded.payload as any).wallets[0].public_key === appPubKey) {
       return jwtDecoded.payload
     }
+    console.log("here");
     throw new UnauthorizedAccess("Kindly be sure you are using the correct token and app_pub_key from web3 auth")
   }catch(err){
-    console.log(err)
+    throw new UnauthorizedAccess("Kindly be sure you are using the correct token and app_pub_key from web3 auth")
   }
   }
 

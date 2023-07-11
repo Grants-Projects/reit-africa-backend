@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grants-projects/reit-africa-api-client": "npm:@Grants-Projects/reit-africa-api-client@^1.0.4-SNAPSHOT.168598969",
     "@sendgrid/mail": "^7.7.0",
     "@toruslabs/eccrypto": "^3.0.0",
     "@toruslabs/openlogin-ed25519": "^4.0.0",
